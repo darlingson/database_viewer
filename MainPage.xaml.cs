@@ -1,23 +1,41 @@
-﻿namespace DatabaseTableExplorer;
+﻿using MySql.Data.MySqlClient;
+using System.Collections.ObjectModel;
+
+namespace DatabaseTableExplorer;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
+    private string connectionString = "server=localhost;user=mysql;password=root;";
+    public ObservableCollection<string> Databases { get; } = new();
 
     public MainPage()
     {
         InitializeComponent();
+        BindingContext = this;
     }
 
-    private void OnCounterClicked(object sender, EventArgs e)
+    private async void OnRefreshClicked(object sender, EventArgs e)
     {
-        count++;
+        try
+        {
+            Databases.Clear();
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
+                using (var command = new MySqlCommand("SHOW DATABASES;", connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        Databases.Add(reader.GetString(0));
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 }
