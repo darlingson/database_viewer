@@ -1,0 +1,33 @@
+# .NET MAUI project ignore file
+
+## Build and debugging files
+/bin/
+/obj/
+/.vs/
+
+## NuGet packages
+/packages/
+
+## MAUI-specific files
+/Platforms/Android/bin/
+/Platforms/Android/obj/
+/Platforms/iOS/bin/
+/Platforms/iOS/obj/
+/Platforms/MacCatalyst/bin/
+/Platforms/MacCatalyst/obj/
+/Platforms/Tizen/bin/
+/Platforms/Tizen/obj/
+/Platforms/Windows/bin/
+/Platforms/Windows/obj/
+
+## Visual Studio files
+.vs/
+.vscode/
+*.suo
+*.ntvs*
+*.nupkg
+
+## Miscellaneous
+*.user
+*.userosscache
+*.sln.docstates
